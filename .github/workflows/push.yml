@@ -17,4 +17,3 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build*Push
       run: make build
-      run: make push
