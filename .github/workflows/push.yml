@@ -28,7 +28,7 @@ jobs:
         images: aevdokimov89/devops-for-programmers-project-lvl1
       
     - name: Build Docker image
-        uses: actions/checkout@v2
+      uses: actions/checkout@v2
       
     - name: build
       run: make build
