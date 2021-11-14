@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Test CI
-      run: make ci
+      run: make cic
    
     - name: Check out the repo
       uses: actions/checkout@v2
