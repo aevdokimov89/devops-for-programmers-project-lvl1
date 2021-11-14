@@ -29,21 +29,21 @@ jobs:
           driver-opts: network=host
       -
         name: Build and export to Docker client
-        uses: ./app
+        uses: ./
         with:
           context: ./app
-          file: ./Dockerfile.production
+          file: ./app/Dockerfile.production
           load: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: latest
           labels: ${{ steps.meta.outputs.labels }}
       -
         name: Build and push to local registry
         uses: ./
         with:
-          context: ./test
-          file: ./test/Dockerfile
+          context: ./app
+          file: ./app/Dockerfile.production
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: latest
           labels: ${{ steps.meta.outputs.labels }}
       -
         name: Inspect image
