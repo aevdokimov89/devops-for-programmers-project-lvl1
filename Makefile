@@ -19,7 +19,7 @@ heroku-logs:
 	heroku logs --tail
 
 ci:
-	docker-compose -f app/docker-compose.yml up --abort-on-container-exit
+	cd app/; docker-compose -f docker-compose.yml up --abort-on-container-exit
 build:
 	docker-compose -f app/docker-compose.yml build app
 push:

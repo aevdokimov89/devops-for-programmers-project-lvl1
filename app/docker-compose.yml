@@ -34,8 +34,8 @@ services:
      environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       DATABASE_HOST: 127.0.0.1:5232
-     volumes: 
-      - ./pg_project:/var/lib/postgresql/data
+     #volumes: 
+      #- ./pg_project:/var/lib/postgresql/data
      ports:
       - ${POSTGRES_PORT:-5432}:5432 
     # POSTGRES_PASSWORD: password
