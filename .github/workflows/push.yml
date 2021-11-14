@@ -12,5 +12,5 @@ jobs:
     - name: Test CI
       run: make ci
     #-name: Build       
-      #run: make build
+      run: make build
       #run: make push
