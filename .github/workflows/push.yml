@@ -31,8 +31,8 @@ jobs:
         name: Build and export to Docker client
         uses: ./app
         with:
-          context: ./test
-          file: ./app/Dockerfile.production
+          context: ./app
+          file: ./Dockerfile.production
           load: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
