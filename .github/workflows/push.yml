@@ -11,10 +11,64 @@ jobs:
     - uses: actions/checkout@v2
     - name: Test CI
       run: make ci
-  build:
+  docker:
     runs-on: ubuntu-latest
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
-     #- uses: actions/checkout@v1
-     -name: Build       
-      run: make build
-      #run: make push
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+      -
+        name: Build and export to Docker client
+        uses: ./
+        with:
+          context: ./test
+          file: ./test/Dockerfile
+          load: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      -
+        name: Build and push to local registry
+        uses: ./
+        with:
+          context: ./test
+          file: ./test/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      -
+        name: Inspect image
+        run: |
+          docker image inspect ${{ env.DOCKER_IMAGE }}:${{ steps.meta.outputs.version }}
+      -
+        name: Check manifest
+        if: github.event_name != 'pull_request'
+        run: |
+          docker buildx imagetools inspect ${{ env.DOCKER_IMAGE }}:${{ steps.meta.outputs.version }}
+      -
+        name: Dump context
+        if: always()
+        uses: crazy-max/ghaction-dump-context@v1
