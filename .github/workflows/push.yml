@@ -36,7 +36,14 @@ jobs:
         with:
           images: aevdokimov89/devops-for-programmers-project-lvl1
       
-      - name: Build and push Docker image
+      - name: Build Docker image
         uses: actions/checkout@v2
+      
+      - name: build
+        run: make build
+
+      - name: Push Docker image
+        uses: actions/checkout@v2
+      
       - name: push
         run: make push
