@@ -11,6 +11,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Test CI
       run: make ci
-    #-name: Build       
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     -name: Build       
       run: make build
       #run: make push
