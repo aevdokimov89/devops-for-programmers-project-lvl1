@@ -38,5 +38,5 @@ jobs:
       
       - name: Build and push Docker image
         uses: actions/checkout@v2
-      -name: push
+      - name: push
         run: make push
