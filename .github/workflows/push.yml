@@ -5,45 +5,36 @@ on:
     branches:
       - main
 jobs:
-  test:
+  Test_Build_Push:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Test CI
       run: make ci
-  #build_push:
-   # runs-on: ubuntu-latest
-    #steps:
-    #- uses: actions/checkout@v2
-    #- name: Build*Push
-     # run: make push
-  push_to_registry:
-    name: Push Docker image to Docker Hub
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
+   
+    - name: Check out the repo
+      uses: actions/checkout@v2
+      
+    - name: Log in to Docker Hub
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        username: aevdokimov89
+        password: QazXsw#@!
+      
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      with:
+        images: aevdokimov89/devops-for-programmers-project-lvl1
+      
+    - name: Build Docker image
         uses: actions/checkout@v2
       
-      - name: Log in to Docker Hub
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-        with:
-          username: aevdokimov89
-          password: A0!0289dmin
-      
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: aevdokimov89/devops-for-programmers-project-lvl1
-      
-      - name: Build Docker image
-        uses: actions/checkout@v2
-      
-      - name: build
-        run: make build
+    - name: build
+      run: make build
 
-      - name: Push Docker image
-        uses: actions/checkout@v2
+    - name: Push Docker image
+      uses: actions/checkout@v2
       
-      - name: push
-        run: make push
+    - name: push
+      run: make push
