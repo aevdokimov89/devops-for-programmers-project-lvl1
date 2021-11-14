@@ -14,7 +14,7 @@ services:
       # Имя докерфайла из которого будет собран образ
       dockerfile: Dockerfile
       # Команда, которая будет выполнена после старта сервиса
-    command: npm run dev
+    command: bash -c 'sleep 3 && npm start'
     ports: # Проброс портов
       - "8080:8080"
     # Перечисляем тома (volumes)
@@ -42,4 +42,3 @@ services:
      # POSTGRES_PASSWORD: password
     #volumes:
      # - pgdata:/var/lib/postgresql/data
-
