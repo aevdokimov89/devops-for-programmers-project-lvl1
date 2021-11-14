@@ -10,51 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Test CI
-      run: make build
+      run: make ci
   docker:
     runs-on: ubuntu-latest
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          driver-opts: network=host
-      -
-        name: Build and export to Docker client
-        uses: ./
-        with:
-          context: ./app
-          file: ./app/Dockerfile.production
-          load: true
-          tags: latest
-          labels: ${{ steps.meta.outputs.labels }}
-      -
-        name: Build and push to local registry
-        uses: ./
-        with:
-          context: ./app
-          file: ./app/Dockerfile.production
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: latest
-          labels: ${{ steps.meta.outputs.labels }}
-      -
-        name: Inspect image
-        run: |
-          docker image inspect ${{ env.DOCKER_IMAGE }}:${{ steps.meta.outputs.version }}
-      -
-        name: Check manifest
-        if: github.event_name != 'pull_request'
-        run: |
-          docker buildx imagetools inspect ${{ env.DOCKER_IMAGE }}:${{ steps.meta.outputs.version }}
-      -
-        name: Dump context
-        if: always()
-        uses: crazy-max/ghaction-dump-context@v1
+    - uses: actions/checkout@v2
+    - name: Build
+      run: make build
