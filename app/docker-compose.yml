@@ -33,7 +33,7 @@ services:
      image: postgres:latest
      environment:
       #POSTGRES_HOST_AUTH_METHOD: trust
-      #DATABASE_HOST: db
+      DATABASE_HOST: 127.0.0.1
       #DATABASE_NAME: postgres
       #DATABSE_USERNAME: postgres
       POSTGRES_PASSWORD: password
