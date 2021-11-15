@@ -32,10 +32,10 @@ services:
   db:
      image: postgres:latest
      environment:
-      #POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_HOST_AUTH_METHOD: trust
       DATABASE_HOST: localhost
       DATABASE_NAME: postgres
-      DATABASE_USERNAME: postgres
+      DATABSE_USERNAME: postgres
       DATABASE_PASSWORD: password
      #volumes: 
       #- ./pg_project:/var/lib/postgresql/data
