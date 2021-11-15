@@ -7,45 +7,39 @@ version: "3"
 services:
 
   app: # Имя сервиса
-    build:
+    #build:
       # Контекст для сборки образа,
       # в данном случае, текущая директория
-      context: .
+      #context: .
       # Имя докерфайла из которого будет собран образ
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile
       # Команда, которая будет выполнена после старта сервиса
-    command: npm test
-    image: aevdokimov89/devops-for-programmers-project-lvl1:latest
+    #command: bash -c 'sleep 3 && npm start'
+    command: npm run dev
     ports: # Проброс портов
-     - "8080:8080"
+      - "8080:8080"
     # Перечисляем тома (volumes)
     # Они будут подключены к файловой системе сервиса
     # Например, всё что находится в . мы увидим в директории /app
     volumes:
-      - ".:/app"
+      - "./app:/app"
      # - "/tmp:/tmp"
     # Сервис будет запущен, только после старта db
-    depends_on:
-     - db
- # redis:
-     #image: aevdokimov89/devops-for-programmers-project-lvl1:app
-  db:
-     image: postgres:latest
-     environment:
-      #POSTGRES_HOST_AUTH_METHOD: trust
-      DATABASE_HOST: 127.0.0.1
-      #DATABASE_NAME: postgres
-      #DATABSE_USERNAME: postgres
-      POSTGRES_PASSWORD: password
-     #volumes: 
-      #- ./pg_project:/var/lib/postgresql/data
-     ports:
-      - ${POSTGRES_PORT:-5432}:5432 
-    # POSTGRES_PASSWORD: password
+    #depends_on:
+     #- caddy
+  #caddy:
+    #image: caddy:latest
+    #depends_on:
+      #- app
+    #volumes: 
+      #- "./services/caddy/Caddyfile:/etc/caddy/Caddyfile"
+    #ports: # Проброс портов
+      #- "80:80"
+      #- "443:443" 
+  #db:
     # Имя образа. Здесь мы используем базу данных Postgres
    #image: postgres:latest
     #environment: # А так задаются переменные окружения
      # POSTGRES_PASSWORD: password
     #volumes:
-    # - pgdata:/var/lib/postgresql/data
-
+     # - pgdata:/var/lib/postgresql/data

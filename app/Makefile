@@ -1,10 +1,8 @@
 setup:
-	echo "# Dockerfile" > Dockerfile
-	echo "FROM node:14.18.1" >> Dockerfile
-	echo "WORKDIR /app" >> Dockerfile
+	npm ci
 
 start:
-	docker-compose up
+	npm start
 
 dev:
 	npm run dev
@@ -13,14 +11,7 @@ lint:
 	npx eslint .
 
 test:
-	docker-compose -f docker-compose.yml up --abort-on-container-exit
+	npm test
 
 heroku-logs:
 	heroku logs --tail
-
-ci:
-	docker-compose -f docker-compose.yml up --abort-on-container-exit
-build:
-	docker-compose -f docker-compose.yml build app
-push:
-	docker-compose -f docker-compose.yml push app
