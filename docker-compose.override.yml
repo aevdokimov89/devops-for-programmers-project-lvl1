@@ -7,7 +7,7 @@ version: "3"
 services:
 
   app: # Имя сервиса
-    #build:
+    build:
       # Контекст для сборки образа,
       # в данном случае, текущая директория
       #context: .
@@ -15,7 +15,7 @@ services:
       dockerfile: Dockerfile
       # Команда, которая будет выполнена после старта сервиса
     #command: bash -c 'sleep 3 && npm start'
-    command: npm run dev
+    command: bash -c 'sleep 3 && npm start'
     ports: # Проброс портов
       - "8080:8080"
     # Перечисляем тома (volumes)
@@ -27,15 +27,15 @@ services:
     # Сервис будет запущен, только после старта db
     #depends_on:
      #- caddy
-  #caddy:
-    #image: caddy:latest
-    #depends_on:
-      #- app
-    #volumes: 
-      #- "./services/caddy/Caddyfile:/etc/caddy/Caddyfile"
-    #ports: # Проброс портов
-      #- "80:80"
-      #- "443:443" 
+  caddy:
+    image: caddy:latest
+    depends_on:
+      - app
+    volumes: 
+      - "./services/caddy/Caddyfile:/etc/caddy/Caddyfile"
+    ports: # Проброс портов
+      - "80:80"
+      - "443:443" 
   #db:
     # Имя образа. Здесь мы используем базу данных Postgres
    #image: postgres:latest
